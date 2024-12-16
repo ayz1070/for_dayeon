@@ -41,3 +41,18 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# Firebase
+# Firebase 설정 파일들 (Android 및 iOS)
+# iOS Firebase 설정 파일
+ios/Runner/GoogleService-Info.plist
+
+# Android Firebase 설정 파일
+android/app/google-services.json
+
+# Firebase 기본 설정 파일
+firebase.json
+
+# Firebase 연동을 위한 코드 파일
+lib/firebase_options.dart
