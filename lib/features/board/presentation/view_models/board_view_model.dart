@@ -6,6 +6,7 @@ class BoardViewModel {
   final String content;
   final String imageUrl;
   final DateTime createdAt;
+  final DateTime? updatedAt;
 
   BoardViewModel({
     this.id,
@@ -13,6 +14,7 @@ class BoardViewModel {
     required this.content,
     required this.imageUrl,
     DateTime? createdAt,
+    this.updatedAt,
   }) : this.createdAt = createdAt ?? DateTime.now();
 
   String get formattedTime => Formatter.formatHourMinute(createdAt);
