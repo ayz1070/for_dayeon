@@ -31,9 +31,18 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # 파이어베이스
   firebase_core:
   firebase_storage:
+  intl:
 
+  flutter_riverpod:
+  # 애니메이션
+  animated_background:
+  font_awesome_flutter:
+
+  # 이미지
+  image_picker:
 
 
   # The following adds the Cupertino Icons font to your application.
