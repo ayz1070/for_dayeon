@@ -20,6 +20,7 @@ class AppColors {
   static const Color backgroundSecondaryColorDark = Color(0xFF333333);
   static const Color backgroundTertiaryColorDark = Color(0xFF666666);
 
+
   /// 앱바
   static const Color appBarBackgroundColor = Colors.white;
 
@@ -66,5 +67,14 @@ class AppColors {
   static const Color iconStarSecondaryColor = Color(0xFFE6E7E8);
 
 
+  static const Color backgroundPrimaryColorChristmas = Colors.black;
+  static const Color backgroundSecondaryColorChristmas = Color(0xFF333333);
+  static const Color backgroundTertiaryColorChristmas = Color(0xFF666666);
+
+  // 크리스마스 테마에 맞는 추가 색상 정의
+  static const Color christmasRed = Color(0xFFD32F2F); // 크리스마스 레드
+  static const Color christmasGreen = Color(0xFF388E3C); // 크리스마스 그린
+  static const Color christmasBackground = Color(0xFFEDEDED); // 배경
+  static const Color christmasAccent = Color(0xFFFFF9C4); // 눈 포인트
 
 }

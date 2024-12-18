@@ -39,59 +39,54 @@ class BoardPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          SnowBackground(),
-          Container(
-            padding: EdgeInsets.all(20),
-            child: ListView(
-              children: [
-                Text(
-                  "일상",
-                  style: AppTextStyles.bold16,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Center(
-                  child: SizedBox(
-                    height: 570,
-                    width: 300,
-                    child: CarouselView(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero, // 반경을 0으로 설정
-                      ),
-                      itemExtent: 400,
-                      shrinkExtent: 100.0,
-                      children: [
-                        BoardItem(boardViewModel: boardViewModel),
-                        BoardItem(boardViewModel: boardViewModel),
-                        BoardItem(boardViewModel: boardViewModel),
-                      ],
-                    ),
-                  ),
-                ),
-                Text("여행"),
-                SizedBox(
-                  height: 700,
-                  child: CarouselView(
-                    controller: controller,
-                    itemExtent: double.infinity,
-                    scrollDirection: Axis.horizontal,
-                    shrinkExtent: 100,
-                    children: List<BoardItem>.generate(
-                      10,
-                      (int index) {
-                        return BoardItem(boardViewModel: boardViewModel);
-                      },
-                    ),
-                  ),
-                ),
-                Text("맛집"),
-              ],
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: ListView(
+          children: [
+            Text(
+              "일상",
+              style: AppTextStyles.bold16,
             ),
-          ),
-        ],
+            SizedBox(
+              height: 16,
+            ),
+            Center(
+              child: SizedBox(
+                height: 570,
+                width: 300,
+                child: CarouselView(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero, // 반경을 0으로 설정
+                  ),
+                  itemExtent: 400,
+                  shrinkExtent: 100.0,
+                  children: [
+                    BoardItem(boardViewModel: boardViewModel),
+                    BoardItem(boardViewModel: boardViewModel),
+                    BoardItem(boardViewModel: boardViewModel),
+                  ],
+                ),
+              ),
+            ),
+            Text("여행"),
+            SizedBox(
+              height: 700,
+              child: CarouselView(
+                controller: controller,
+                itemExtent: double.infinity,
+                scrollDirection: Axis.horizontal,
+                shrinkExtent: 100,
+                children: List<BoardItem>.generate(
+                  10,
+                  (int index) {
+                    return BoardItem(boardViewModel: boardViewModel);
+                  },
+                ),
+              ),
+            ),
+            Text("맛집"),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [

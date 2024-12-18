@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:for_dayeon/core/theme/app_theme.dart';
 
 import 'features/board/presentation/pages/board_page.dart';
+import 'core/animation/snow_fall_effect.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {

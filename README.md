@@ -28,7 +28,7 @@
 - 상태 관리
   - Riverpod 학습 및 적용
 - 디자인 패턴
-  -  MVVM 패턴 
+  - MVVM 패턴 
 
 - 클린 아키텍처 적용
   - data
@@ -67,7 +67,10 @@
 #### 모델
 - [ ] User
   - [ ] id : String
+  - [ ] coupleId : String
   - [ ] name : String
+  - [ ] imageUrl : String
+  - [ ] metAt :DateTime
 - [ ] Board
   - [ ] id : String
   - [ ] userId : String
@@ -78,6 +81,7 @@
   - [ ] createdAt : DateTime
   - [ ] updatedAt : DateTime
   - [ ] deletedAt : DateTime
+  - [ ] boardType : BoardType
 
 ---
 #### 조인 
