@@ -65,23 +65,23 @@
 
 ---
 #### 모델
-- [ ] User
-  - [ ] id : String
-  - [ ] coupleId : String
-  - [ ] name : String
-  - [ ] imageUrl : String
-  - [ ] metAt :DateTime
-- [ ] Board
-  - [ ] id : String
-  - [ ] userId : String
-  - [ ] title : String
-  - [ ] content : String
-  - [ ] imageUrl : String
-  - [ ] videoUrl : String
-  - [ ] createdAt : DateTime
-  - [ ] updatedAt : DateTime
-  - [ ] deletedAt : DateTime
-  - [ ] boardType : BoardType
+- [x] User
+  - [x] id : String
+  - [x] coupleId : String
+  - [x] name : String
+  - [x] imageUrl : String
+  - [x] metAt :DateTime
+- [x] Board
+  - [x] id : String
+  - [x] userId : String
+  - [x] title : String
+  - [x] content : String
+  - [x] imageUrl : String
+  - [x] videoUrl : String
+  - [x] createdAt : DateTime
+  - [x] updatedAt : DateTime
+  - [x] deletedAt : DateTime
+  - [x] boardType : BoardType
 
 ---
 #### 조인 
@@ -91,11 +91,11 @@
 ---
 
 #### 백엔드 기능 목록
-- [ ] 환경 세팅
-  - [ ] 파이어베이스 연동
+- [x] 환경 세팅
+  - [x] 파이어베이스 연동
   
-- [ ] 게시판
-  - [ ] 게시판 create
-  - [ ] 게시판 read
-  - [ ] 게시판 update
-  - [ ] 게시판 delete
+- [x] 게시판
+  - [x] 게시판 create
+  - [x] 게시판 read
+  - [x] 게시판 update
+  - [x] 게시판 delete
