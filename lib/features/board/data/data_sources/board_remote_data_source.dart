@@ -15,7 +15,7 @@ class BoardRemoteDataSource implements BoardDataSource {
   Future<void> saveBoard(BoardModel boardModel) async {
     final boardRef = firestore.collection('boards').doc();
 
-    final newBoardModel = boardModel.copyWith(id: boardRef.id);
+    final newBoardModel = boardModel.copyWith(id: boardRef.id, createdAt: DateTime.now(),);
     try {
       await boardRef.set(newBoardModel.toMap());
       logger.i('saveBoard 성공, pointId : ${newBoardModel.id}');

@@ -2,7 +2,7 @@ import 'board_type.dart';
 
 class BoardEntity{
   final String? id; // Firestore Document ID
-  final String userId; // 작성자 ID
+  final String? userId; // 작성자 ID
   final String title; // 제목
   final String content; // 내용
   final String imageUrl; // 이미지 URL
@@ -14,7 +14,7 @@ class BoardEntity{
 
   BoardEntity({
     this.id, // Firestore의 Reference ID와 연동
-    required this.userId,
+    this.userId,
     required this.title,
     required this.content,
     required this.imageUrl,

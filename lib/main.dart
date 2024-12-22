@@ -1,9 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_dayeon/core/theme/app_theme.dart';
+import 'package:for_dayeon/features/board/presentation/pages/board_test_page.dart';
 
 import 'features/board/presentation/pages/board_page.dart';
-import 'core/animation/snow_fall_effect.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -13,7 +14,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -22,11 +25,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: AppTheme.darkTheme,
-      home: BoardPage(),
+    return ProviderScope(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: AppTheme.darkTheme,
+        home: BoardTestPage(),
+      ),
     );
   }
 }
-

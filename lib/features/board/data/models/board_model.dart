@@ -124,7 +124,7 @@ extension BoardModelMapper on BoardModel {
   static BoardModel fromEntity(BoardEntity entity) {
     return BoardModel(
       id: entity.id,
-      userId: entity.userId,
+      userId: entity.userId!,
       title: entity.title,
       content: entity.content,
       imageUrl: entity.imageUrl,

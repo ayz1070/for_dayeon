@@ -71,6 +71,7 @@
   - [ ] name : String
   - [ ] imageUrl : String
   - [ ] metAt :DateTime
+  - [ ] createdAt : DateTime
 - [ ] Board
   - [ ] id : String
   - [ ] userId : String
@@ -91,11 +92,18 @@
 ---
 
 #### 백엔드 기능 목록
-- [ ] 환경 세팅
-  - [ ] 파이어베이스 연동
+- [x] 환경 세팅
+  - [x] 파이어베이스 연동
   
-- [ ] 게시판
-  - [ ] 게시판 create
-  - [ ] 게시판 read
-  - [ ] 게시판 update
-  - [ ] 게시판 delete
+- [x] 게시판
+  - [x] 게시판 create
+    - [x] saveBoard
+  - [x] 게시판 read
+    - [x] fetchBoardById
+    - [x] fetchBoardsByUserId
+    - [x] fetchBoardsByCoupleId
+    - [x] fetchBoards
+  - [x] 게시판 update
+    - [x] updateBoard
+  - [x] 게시판 delete
+    - [x] deleteBoardById

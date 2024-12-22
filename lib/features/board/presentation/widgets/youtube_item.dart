@@ -3,6 +3,7 @@ import 'package:for_dayeon/core/theme/text_styles.dart';
 import 'package:for_dayeon/features/board/presentation/pages/video_detail_page.dart';
 import 'package:for_dayeon/features/board/presentation/view_models/board_view_model.dart';
 import 'package:for_dayeon/features/board/presentation/view_models/video_view_model.dart';
+import '../../../../core/utils/formatter.dart';
 import '../pages/board_detail_page.dart';
 
 class YoutubeItem extends StatelessWidget {
@@ -74,7 +75,7 @@ class YoutubeItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      "날짜: ${videoViewModel.createdAt}",
+                      "${Formatter.formatYearMonthDate(videoViewModel.createdAt)}",
                       style: AppTextStyles.regular11,
                     ),
                     const SizedBox(height: 4),
