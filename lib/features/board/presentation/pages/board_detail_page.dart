@@ -6,13 +6,17 @@ import 'package:for_dayeon/features/board/presentation/view_models/board_view_mo
 class BoardDetailPage extends StatelessWidget {
   final BoardViewModel boardViewModel;
 
-  const BoardDetailPage({required this.boardViewModel, Key? key}) : super(key: key);
+  const BoardDetailPage({required this.boardViewModel, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("게시글 상세"),
+        title: Text(
+          "다요니 일상",
+          style: AppTextStyles.bold16,
+        ),
         centerTitle: true,
       ),
       body: Padding(

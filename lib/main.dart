@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_dayeon/core/theme/app_theme.dart';
 import 'package:for_dayeon/features/board/presentation/pages/board_test_page.dart';
@@ -14,9 +15,14 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(
-    MyApp(),
-  );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // 세로 모드 고정
+    // DeviceOrientation.landscapeLeft, // 가로 모드 (왼쪽 고정)
+    // DeviceOrientation.landscapeRight, // 가로 모드 (오른쪽 고정)
+  ]).then((_) {
+    runApp(MyApp());
+  });
+
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +35,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: AppTheme.darkTheme,
-        home: BoardTestPage(),
+        home: BoardPage(),
       ),
     );
   }

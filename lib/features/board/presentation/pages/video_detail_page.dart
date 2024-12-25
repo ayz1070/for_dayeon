@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:for_dayeon/core/theme/text_styles.dart';
+import 'package:for_dayeon/core/utils/formatter.dart';
 import 'package:for_dayeon/features/board/presentation/view_models/video_view_model.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoDetailPage extends StatelessWidget {
   final VideoViewModel videoViewModel;
 
-  const VideoDetailPage({required this.videoViewModel, Key? key}) : super(key: key);
+  const VideoDetailPage({required this.videoViewModel, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +16,16 @@ class VideoDetailPage extends StatelessWidget {
       initialVideoId: YoutubePlayer.convertUrlToId(videoViewModel.videoUrl)!,
       flags: const YoutubePlayerFlags(
         autoPlay: false, // 자동 재생 설정
-        mute: false,    // 음소거 설정
+        mute: false, // 음소거 설정
       ),
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("영상 상세"),
+        title: Text(
+          "다요니 영상",
+          style: AppTextStyles.bold16,
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -48,7 +53,7 @@ class VideoDetailPage extends StatelessWidget {
 
             // 날짜 섹션
             Text(
-              "업로드일: ${videoViewModel.createdAt}",
+              "${Formatter.formatYearMonthDate(videoViewModel.createdAt)}",
               style: AppTextStyles.regular12,
             ),
             const SizedBox(height: 16),
