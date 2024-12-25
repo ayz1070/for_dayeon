@@ -68,16 +68,18 @@ class BoardItem extends StatelessWidget {
                     Text(
                       "${Formatter.formatYearMonthDate(boardViewModel.createdAt)}",
                       style: AppTextStyles.regular11,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
                     Text(
                       boardViewModel.title,
                       style: AppTextStyles.bold14,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
                     Text(
                       boardViewModel.content,
-                      maxLines: 2, // 최대 2줄까지만 표시
+                      maxLines: 1, // 최대 2줄까지만 표시
                       overflow: TextOverflow.ellipsis, // 넘치는 텍스트는 "..."으로 처리
                       style: AppTextStyles.regular12,
                     ),

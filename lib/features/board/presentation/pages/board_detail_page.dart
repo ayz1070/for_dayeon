@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:for_dayeon/core/theme/text_styles.dart';
+import 'package:for_dayeon/core/utils/formatter.dart';
 import 'package:for_dayeon/features/board/presentation/view_models/board_view_model.dart';
 
 class BoardDetailPage extends StatelessWidget {
@@ -26,20 +27,20 @@ class BoardDetailPage extends StatelessWidget {
                 aspectRatio: 3 / 4,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    boardViewModel.imageUrl,
+                  child: Image.asset(
+                    "assets/images/${boardViewModel.imageUrl}.jpeg",
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => const Icon(
                       Icons.broken_image,
                       size: 50,
                       color: Colors.grey,
                     ),
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
+                    // loadingBuilder: (context, child, progress) {
+                    //   if (progress == null) return child;
+                    //   return const Center(
+                    //     child: CircularProgressIndicator(),
+                    //   );
+                    // },
                   ),
                 ),
               ),
@@ -55,7 +56,7 @@ class BoardDetailPage extends StatelessWidget {
 
             // 날짜 섹션
             Text(
-              "작성일: ${boardViewModel.createdAt}",
+              "${Formatter.formatYearMonthDate(boardViewModel.createdAt)}",
               style: AppTextStyles.regular12,
             ),
             const SizedBox(height: 16),

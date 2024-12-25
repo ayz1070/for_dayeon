@@ -23,7 +23,7 @@ class BoardCarouselSlider extends StatelessWidget {
         );
       },
       options: CarouselOptions(
-        height: 568, // 슬라이더 전체 높이 설정
+        height: 570, // 슬라이더 전체 높이 설정
         viewportFraction: 0.75, // 뷰포트 크기
         enableInfiniteScroll: false,
         enlargeCenterPage: true,
