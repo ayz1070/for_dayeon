@@ -19,7 +19,7 @@ class BoardAddPage extends ConsumerWidget {
       await _picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
-        boardNotifier.setImage(pickedFile.path); // 이미지 경로를 상태에 저장
+        boardNotifier.setImage(pickeg햐dFile.path); // 이미지 경로를 상태에 저장
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("이미지를 선택하지 않았습니다.")),
