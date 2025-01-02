@@ -83,6 +83,23 @@
   - [ ] updatedAt : DateTime
   - [ ] deletedAt : DateTime
   - [ ] boardType : BoardType
+- [x] User
+  - [x] id : String
+  - [x] coupleId : String
+  - [x] name : String
+  - [x] imageUrl : String
+  - [x] metAt :DateTime
+- [x] Board
+  - [x] id : String
+  - [x] userId : String
+  - [x] title : String
+  - [x] content : String
+  - [x] imageUrl : String
+  - [x] videoUrl : String
+  - [x] createdAt : DateTime
+  - [x] updatedAt : DateTime
+  - [x] deletedAt : DateTime
+  - [x] boardType : BoardType
 
 ---
 #### 조인 
@@ -107,3 +124,7 @@
     - [x] updateBoard
   - [x] 게시판 delete
     - [x] deleteBoardById
+
+  - [x] 게시판 read
+  - [x] 게시판 update
+  - [x] 게시판 delete
