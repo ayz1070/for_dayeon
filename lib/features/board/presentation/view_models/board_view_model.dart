@@ -6,7 +6,6 @@ class BoardViewModel {
   final String title;
   final String content;
   final String imageUrl;
-  final String videoUrl;
   final DateTime createdAt;
   final DateTime? updatedAt;
   final BoardType boardType;
@@ -16,7 +15,6 @@ class BoardViewModel {
     required this.title,
     required this.content,
     required this.imageUrl,
-    required this.videoUrl,
     DateTime? createdAt,
     this.updatedAt,
     required this.boardType,
@@ -29,7 +27,6 @@ class BoardViewModel {
       title: entity.title,
       content: entity.content,
       imageUrl: entity.imageUrl,
-      videoUrl: entity.videoUrl,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       boardType: entity.boardType,
@@ -43,7 +40,6 @@ class BoardViewModel {
       title: viewModel.title,
       content: viewModel.content,
       imageUrl: viewModel.imageUrl,
-      videoUrl: viewModel.videoUrl,
       createdAt: viewModel.createdAt,
       updatedAt: viewModel.updatedAt ?? DateTime.now(),
       boardType: viewModel.boardType,
@@ -66,7 +62,6 @@ class BoardViewModel {
       title: title ?? this.title,
       content: content ?? this.content,
       imageUrl: imageUrl ?? this.imageUrl,
-      videoUrl: videoUrl ?? this.videoUrl,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       boardType: boardType ?? this.boardType,
