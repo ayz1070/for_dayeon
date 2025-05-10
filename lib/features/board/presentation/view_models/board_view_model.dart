@@ -1,4 +1,5 @@
-import 'package:for_dayeon/core/utils/formatter.dart';
+import '../../domain/entities/board_entity.dart';
+import '../../domain/entities/board_type.dart';
 
 class BoardViewModel {
   final String? id;
@@ -7,6 +8,7 @@ class BoardViewModel {
   final String imageUrl;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  final BoardType boardType;
 
   BoardViewModel({
     this.id,
@@ -15,10 +17,34 @@ class BoardViewModel {
     required this.imageUrl,
     DateTime? createdAt,
     this.updatedAt,
+    required this.boardType,
   }) : this.createdAt = createdAt ?? DateTime.now();
 
-  String get formattedTime => Formatter.formatHourMinute(createdAt);
-  String get formattedDate => Formatter.formatYearMonthDate(createdAt);
+  // Entity -> ViewModel 변환
+  static BoardViewModel fromEntity(BoardEntity entity) {
+    return BoardViewModel(
+      id: entity.id,
+      title: entity.title,
+      content: entity.content,
+      imageUrl: entity.imageUrl,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+      boardType: entity.boardType,
+    );
+  }
+
+  // ViewModel -> Entity 변환
+  static BoardEntity toEntity(BoardViewModel viewModel) {
+    return BoardEntity(
+      id: viewModel.id!,
+      title: viewModel.title,
+      content: viewModel.content,
+      imageUrl: viewModel.imageUrl,
+      createdAt: viewModel.createdAt,
+      updatedAt: viewModel.updatedAt ?? DateTime.now(),
+      boardType: viewModel.boardType,
+    );
+  }
 
   // 복사 메서드
   BoardViewModel copyWith({
@@ -26,7 +52,10 @@ class BoardViewModel {
     String? title,
     String? content,
     String? imageUrl,
+    String? videoUrl,
     DateTime? createdAt,
+    DateTime? updatedAt,
+    BoardType? boardType,
   }) {
     return BoardViewModel(
       id: id ?? this.id,
@@ -34,6 +63,8 @@ class BoardViewModel {
       content: content ?? this.content,
       imageUrl: imageUrl ?? this.imageUrl,
       createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      boardType: boardType ?? this.boardType,
     );
   }
 }

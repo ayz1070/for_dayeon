@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:for_dayeon/core/animation/snow_fall_effect.dart';
-import 'package:for_dayeon/features/board/presentation/pages/board_add_page.dart';
-import 'package:for_dayeon/features/board/presentation/view_models/board_view_model.dart';
-
-import '../../../../core/background/snow_background.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:for_dayeon/features/board/presentation/pages/video_add_page.dart';
+import 'package:for_dayeon/features/board/presentation/state/video_state_notifier_provider.dart';
+import 'package:for_dayeon/features/board/presentation/widgets/dday_card.dart';
+import 'package:for_dayeon/features/board/presentation/widgets/youtube_carousel_slider.dart';
 import '../../../../core/theme/text_styles.dart';
-import '../widgets/board_item.dart';
+import '../state/board_state_notifier_provider.dart';
+import '../widgets/board_carousel_slider.dart';
+import 'board_add_page.dart';
 
-class BoardPage extends StatelessWidget {
+class BoardPage extends ConsumerStatefulWidget {
   const BoardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final BoardViewModel boardViewModel = BoardViewModel(
-        title: "아무 텍스트",
-        content:
-            "itemExtent가 1000으로 설정된 것은 각 캐러셀 아이템의 너비(혹은 높이)를 1000으로 고정하여, 한 번에 하나의 아이템이 크게 표시되도록 설정한 것일 수 있습니다. 이는 캐러셀 아이템이 전체 화면을 가득 채우거나 특정 크기로 표시되도록 할 때 유용합니다.",
-        imageUrl: "https://picsum.photos/200/300",
-        createdAt: DateTime.now());
+  _BoardPageState createState() => _BoardPageState();
+}
 
-    final CarouselController controller = CarouselController(initialItem: 2);
+class _BoardPageState extends ConsumerState<BoardPage> {
+  @override
+  void initState() {
+    super.initState();
+    // 상태 초기화
+    ref.read(boardStateNotifierProvider.notifier).loadBoards();
+    ref.read(videoStateNotifierProvider.notifier).loadVideos();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final boardState = ref.watch(boardStateNotifierProvider);
+    final videoState = ref.watch(videoStateNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -29,76 +38,104 @@ class BoardPage extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => BoardAddPage()));
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == '게시글') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const BoardAddPage()),
+                );
+              } else if (value == '영상') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const VideoAddPage()),
+                );
+              }
             },
-            icon: Icon(
-              Icons.add_box_outlined,
-            ),
+            itemBuilder: (context) => [
+              const PopupMenuItem(value: '게시글', child: Text("게시글 추가")),
+              const PopupMenuItem(value: '영상', child: Text("영상 추가")),
+            ],
+            icon: const Icon(Icons.add_box_outlined),
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: ListView(
-          children: [
-            Text(
-              "일상",
-              style: AppTextStyles.bold16,
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Center(
-              child: SizedBox(
-                height: 570,
-                width: 300,
-                child: CarouselView(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero, // 반경을 0으로 설정
-                  ),
-                  itemExtent: 400,
-                  shrinkExtent: 100.0,
-                  children: [
-                    BoardItem(boardViewModel: boardViewModel),
-                    BoardItem(boardViewModel: boardViewModel),
-                    BoardItem(boardViewModel: boardViewModel),
-                  ],
-                ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.3, // 트리의 투명도 조절
+              child: Image.asset(
+                'assets/images/christmas3.png', // 크리스마스 트리 이미지 경로
+                fit: BoxFit.cover, // 이미지를 화면에 가득 채움
               ),
             ),
-            Text("여행"),
-            SizedBox(
-              height: 700,
-              child: CarouselView(
-                controller: controller,
-                itemExtent: double.infinity,
-                scrollDirection: Axis.horizontal,
-                shrinkExtent: 100,
-                children: List<BoardItem>.generate(
-                  10,
-                  (int index) {
-                    return BoardItem(boardViewModel: boardViewModel);
-                  },
+          ),
+
+          ListView(
+            children: [
+              DdayCard(),
+              // 게시글 섹션
+              boardState.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                data: (boards) {
+                  if (boards.isEmpty) {
+                    return const Center(child: Text("게시물이 없습니다."));
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        child: Text("우리 애기 사진", style: AppTextStyles.bold20),
+                      ),
+                      BoardCarouselSlider(boards: boards),
+                    ],
+                  );
+                },
+                error: (error, stack) => Center(
+                  child: Text("게시글 오류: $error"),
                 ),
               ),
-            ),
-            Text("맛집"),
-          ],
-        ),
+
+              // 동영상 섹션
+              videoState.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                data: (videos) {
+                  if (videos.isEmpty) {
+                    return const Center(child: Text("동영상이 없습니다."));
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        child: Text("우리 애기 영상", style: AppTextStyles.bold20),
+                      ),
+                      YoutubeCarouselSlider(videos: videos),
+                    ],
+                  );
+                },
+                error: (error, stack) => Center(
+                  child: Text("동영상 오류: $error"),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "홈",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
-            label: "게시판",
+            label: "누르지마",
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "설정"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "누르지마2",
+          ),
         ],
       ),
     );

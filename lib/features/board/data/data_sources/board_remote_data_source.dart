@@ -15,11 +15,13 @@ class BoardRemoteDataSource implements BoardDataSource {
   Future<void> saveBoard(BoardModel boardModel) async {
     final boardRef = firestore.collection('boards').doc();
 
-    final newBoardModel = boardModel.copyWith(id: boardRef.id);
+    final newBoardModel = boardModel.copyWith(
+      id: boardRef.id,
+      createdAt: DateTime.now(),
+    );
     try {
       await boardRef.set(newBoardModel.toMap());
       logger.i('saveBoard 성공, pointId : ${newBoardModel.id}');
-
     } catch (e) {
       throw Exception('saveBoard 실패 : $e');
     }
@@ -44,6 +46,7 @@ class BoardRemoteDataSource implements BoardDataSource {
       final snapshot = await firestore
           .collection('boards')
           .where('userId', isEqualTo: userId)
+          .orderBy("createdAt", descending: true)
           .get();
       return snapshot.docs
           .map((doc) => BoardModel.fromMap(doc.data(), id: doc.id))
@@ -60,6 +63,7 @@ class BoardRemoteDataSource implements BoardDataSource {
       final snapshot = await firestore
           .collection('boards')
           .where('coupleId', isEqualTo: coupleId)
+          .orderBy("createdAt", descending: true)
           .get();
       return snapshot.docs
           .map((doc) => BoardModel.fromMap(doc.data(), id: doc.id))
@@ -73,7 +77,7 @@ class BoardRemoteDataSource implements BoardDataSource {
   @override
   Future<List<BoardModel>> fetchBoards() async {
     try {
-      final snapshot = await firestore.collection('boards').get();
+      final snapshot = await firestore.collection('boards').orderBy("createdAt", descending: true).get();
       return snapshot.docs
           .map((doc) => BoardModel.fromMap(doc.data(), id: doc.id))
           .toList();
@@ -89,7 +93,10 @@ class BoardRemoteDataSource implements BoardDataSource {
       if (boardModel.id == null) {
         throw Exception('Board ID is required for update.');
       }
-      await firestore.collection('boards').doc(boardModel.id).update(boardModel.toMap());
+      await firestore
+          .collection('boards')
+          .doc(boardModel.id)
+          .update(boardModel.toMap());
     } catch (e) {
       throw Exception('Failed to update board: $e');
     }

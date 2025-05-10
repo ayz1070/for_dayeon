@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:for_dayeon/core/theme/text_styles.dart';
-import 'package:for_dayeon/core/utils/formatter.dart';
+import 'package:for_dayeon/features/board/presentation/pages/video_detail_page.dart';
 import 'package:for_dayeon/features/board/presentation/view_models/board_view_model.dart';
+import 'package:for_dayeon/features/board/presentation/view_models/video_view_model.dart';
+import '../../../../core/utils/formatter.dart';
 import '../pages/board_detail_page.dart';
 
-class BoardItem extends StatelessWidget {
-  final BoardViewModel boardViewModel;
+class YoutubeItem extends StatelessWidget {
+  final VideoViewModel videoViewModel;
 
-  const BoardItem({
-    required this.boardViewModel,
+  const YoutubeItem({
+    required this.videoViewModel,
     super.key,
   });
 
+  String getYoutubeThumbnail(String videoUrl) {
+    final uri = Uri.parse(videoUrl);
+    final videoId = uri.queryParameters['v']; // 유튜브 URL의 'v' 파라미터에서 ID 추출
+    return 'https://img.youtube.com/vi/$videoId/hqdefault.jpg';
+  }
+
   @override
   Widget build(BuildContext context) {
+    final thumbnailUrl = getYoutubeThumbnail(videoViewModel.videoUrl);
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => BoardDetailPage(boardViewModel: boardViewModel),
+            builder: (context) => VideoDetailPage(videoViewModel: videoViewModel),
           ),
         );
       },
@@ -26,30 +36,29 @@ class BoardItem extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min, // Column 크기를 자식 크기로 설정
+          mainAxisSize: MainAxisSize.min,
           children: [
             // Hero 애니메이션 추가
             Hero(
-              tag: 'boardImage-${boardViewModel.id}',
+              tag: 'youtubeThumbnail-${videoViewModel.id}',
               child: AspectRatio(
-                aspectRatio: 3 / 4, // 이미지 비율 3:4
+                aspectRatio: 16 / 9, // 유튜브 썸네일 비율 16:9
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    //boardViewModel.imageUrl,
-                    "assets/images/${boardViewModel.imageUrl}.jpeg",
+                  child: Image.network(
+                    thumbnailUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => const Icon(
                       Icons.broken_image,
                       size: 50,
                       color: Colors.grey,
                     ),
-                    // loadingBuilder: (context, child, progress) {
-                    //   if (progress == null) return child;
-                    //   return const Center(
-                    //     child: CircularProgressIndicator(),
-                    //   );
-                    // },
+                    loadingBuilder: (context, child, progress) {
+                      if (progress == null) return child;
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -66,23 +75,15 @@ class BoardItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      "${Formatter.formatYearMonthDate(boardViewModel.createdAt)}",
+                      "${Formatter.formatYearMonthDate(videoViewModel.createdAt)}",
                       style: AppTextStyles.regular11,
-                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      boardViewModel.title,
+                      videoViewModel.title,
                       style: AppTextStyles.bold14,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      boardViewModel.content,
-                      maxLines: 1, // 최대 2줄까지만 표시
-                      overflow: TextOverflow.ellipsis, // 넘치는 텍스트는 "..."으로 처리
-                      style: AppTextStyles.regular12,
-                    ),
+
                   ],
                 ),
               ),

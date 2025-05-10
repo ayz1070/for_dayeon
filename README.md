@@ -65,6 +65,24 @@
 
 ---
 #### 모델
+- [ ] User
+  - [ ] id : String
+  - [ ] coupleId : String
+  - [ ] name : String
+  - [ ] imageUrl : String
+  - [ ] metAt :DateTime
+  - [ ] createdAt : DateTime
+- [ ] Board
+  - [ ] id : String
+  - [ ] userId : String
+  - [ ] title : String
+  - [ ] content : String
+  - [ ] imageUrl : String
+  - [ ] videoUrl : String
+  - [ ] createdAt : DateTime
+  - [ ] updatedAt : DateTime
+  - [ ] deletedAt : DateTime
+  - [ ] boardType : BoardType
 - [x] User
   - [x] id : String
   - [x] coupleId : String
@@ -96,6 +114,17 @@
   
 - [x] 게시판
   - [x] 게시판 create
+    - [x] saveBoard
+  - [x] 게시판 read
+    - [x] fetchBoardById
+    - [x] fetchBoardsByUserId
+    - [x] fetchBoardsByCoupleId
+    - [x] fetchBoards
+  - [x] 게시판 update
+    - [x] updateBoard
+  - [x] 게시판 delete
+    - [x] deleteBoardById
+
   - [x] 게시판 read
   - [x] 게시판 update
   - [x] 게시판 delete

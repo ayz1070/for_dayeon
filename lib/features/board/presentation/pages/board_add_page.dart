@@ -1,98 +1,122 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import '../view_models/board_view_model.dart';
-import '../widgets/add_image_list_view.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import '../state/board_state_notifier_provider.dart';
 
-class BoardAddPage extends StatefulWidget {
+class BoardAddPage extends ConsumerWidget {
   const BoardAddPage({Key? key}) : super(key: key);
 
   @override
-  State<BoardAddPage> createState() => _BoardAddPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final boardState = ref.watch(boardAddProvider);
+    final boardNotifier = ref.read(boardAddProvider.notifier);
 
-class _BoardAddPageState extends State<BoardAddPage> {
-  final _titleController = TextEditingController();
-  final _contentController = TextEditingController();
-  final List<String> _imageUrls = [];
+    final ImagePicker _picker = ImagePicker();
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    super.dispose();
-  }
+    Future<void> _addImage() async {
+      final XFile? pickedFile =
+      await _picker.pickImage(source: ImageSource.gallery);
 
-  void _addImage(String imageUrl) {
-    setState(() {
-      _imageUrls.add(imageUrl);
-    });
-  }
-
-  void _removeImage(int index) {
-    setState(() {
-      _imageUrls.removeAt(index);
-    });
-  }
-
-  void _savePost() {
-    if (_titleController.text.isEmpty || _contentController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("제목과 내용을 모두 입력해주세요.")),
-      );
-      return;
+      if (pickedFile != null) {
+        boardNotifier.setImage(pickegdFile.path); // 이미지 경로를 상태에 저장
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("이미지를 선택하지 않았습니다.")),
+        );
+      }
     }
 
-    final newPost = BoardViewModel(
-      title: _titleController.text,
-      content: _contentController.text,
-      imageUrl: _imageUrls.isNotEmpty ? _imageUrls.first : '',
-      createdAt: DateTime.now(),
-    );
+    void _savePost() {
+      if (boardState.title.isEmpty || boardState.content.isEmpty || boardState.imageUrl == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("이미지, 제목, 내용을 모두 입력해주세요.")),
+        );
+        return;
+      }
 
-    // 게시글 저장 로직 (예: 서버로 전송 또는 로컬 DB에 저장)
-    print('저장된 게시글: ${newPost.title}, ${newPost.content}, ${newPost.imageUrl}');
+      // 저장 로직 구현
+      print("저장된 제목: ${boardState.title}");
+      print("저장된 내용: ${boardState.content}");
+      print("저장된 이미지: ${boardState.imageUrl}");
 
-    Navigator.pop(context, newPost); // 새 게시글 데이터를 반환하며 페이지 닫기
-  }
+      Navigator.pop(context); // 페이지 닫기
+    }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("게시판 추가"),
+        title: const Text("게시글 추가"),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.check),
             onPressed: _savePost,
+            icon: const Icon(Icons.check),
           ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: "제목",
-                border: OutlineInputBorder(),
+            // 이미지 추가 섹션
+            GestureDetector(
+              onTap: _addImage,
+              child: AspectRatio(
+                aspectRatio: 4 / 5, // 비율 설정
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    color: Colors.grey[300], // 배경색 회색
+                    child: boardState.imageUrl == null
+                        ? const Center(
+                      child: Icon(
+                        Icons.add,
+                        size: 50,
+                        color: Colors.grey,
+                      ),
+                    )
+                        : Image.file(
+                      File(boardState.imageUrl!), // 로컬 파일로부터 이미지 표시
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                      const Icon(
+                        Icons.broken_image,
+                        size: 50,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _contentController,
-              maxLines: 5,
-              decoration: const InputDecoration(
-                labelText: "내용",
-                border: OutlineInputBorder(),
+            const SizedBox(height: 16),
+
+            // 제목 입력 필드
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TextField(
+                onChanged: boardNotifier.setTitle,
+                decoration: const InputDecoration(
+                  hintText: "제목을 입력하세요",
+                  border: UnderlineInputBorder(), // 하단에만 테두리
+                ),
               ),
             ),
-            const SizedBox(height: 16.0),
-            // AddImageListView(
-            //   images: _imageUrls,
-            //   onAddImage: _addImage,
-            //   onRemoveImage: _removeImage,
-            // ),
+            const SizedBox(height: 8),
+
+            // 내용 입력 필드
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TextField(
+                onChanged: boardNotifier.setContent,
+                maxLines: 3,
+                decoration: const InputDecoration(
+                  hintText: "내용을 입력하세요",
+                  border: UnderlineInputBorder(), // 하단에만 테두리
+                ),
+              ),
+            ),
           ],
         ),
       ),

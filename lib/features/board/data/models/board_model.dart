@@ -8,7 +8,6 @@ class BoardModel {
   final String title; // 제목
   final String content; // 내용
   final String imageUrl; // 이미지 URL
-  final String videoUrl; // 비디오 URL
   final DateTime createdAt; // 생성일
   final DateTime? updatedAt; // 수정일
   final DateTime? deletedAt; // 삭제일
@@ -20,7 +19,6 @@ class BoardModel {
     required this.title,
     required this.content,
     required this.imageUrl,
-    required this.videoUrl,
     required this.createdAt,
     this.updatedAt,
     this.deletedAt,
@@ -35,7 +33,6 @@ class BoardModel {
       title: map['title'] as String,
       content: map['content'] as String,
       imageUrl: map['imageUrl'] as String,
-      videoUrl: map['videoUrl'] as String,
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       updatedAt: map['updatedAt'] != null
           ? (map['updatedAt'] as Timestamp).toDate()
@@ -54,7 +51,6 @@ class BoardModel {
       'title': title,
       'content': content,
       'imageUrl': imageUrl,
-      'videoUrl': videoUrl,
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
       'deletedAt': deletedAt != null ? Timestamp.fromDate(deletedAt!) : null,
@@ -81,7 +77,6 @@ class BoardModel {
       title: title ?? this.title,
       content: content ?? this.content,
       imageUrl: imageUrl ?? this.imageUrl,
-      videoUrl: videoUrl ?? this.videoUrl,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
@@ -113,7 +108,6 @@ extension BoardModelMapper on BoardModel {
       title: title,
       content: content,
       imageUrl: imageUrl,
-      videoUrl: videoUrl,
       createdAt: createdAt,
       updatedAt: updatedAt,
       deletedAt: deletedAt,
@@ -124,11 +118,10 @@ extension BoardModelMapper on BoardModel {
   static BoardModel fromEntity(BoardEntity entity) {
     return BoardModel(
       id: entity.id,
-      userId: entity.userId,
+      userId: entity.userId!,
       title: entity.title,
       content: entity.content,
       imageUrl: entity.imageUrl,
-      videoUrl: entity.videoUrl,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       deletedAt: entity.deletedAt,
